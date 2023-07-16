@@ -24,10 +24,7 @@ function Register() {
                 return errors;
             }}
             onSubmit={async (values, { setSubmitting }) => {
-                console.log(values);
                 const response = await register(values);
-                // alert(JSON.stringify(values, null, 2));
-                console.log(response);
                 if (response.data.status) {
                     swal(`${response.data.msg} with ${response.data.data.email}`);
                 }
