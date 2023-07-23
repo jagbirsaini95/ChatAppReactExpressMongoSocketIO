@@ -105,3 +105,17 @@ module.exports.setAvatar = async (req, res, next) => {
         console.log(error);
     }
 }
+
+module.exports.logOut = async (req, res, next) => {
+    try {
+        // const user = await Users.findOne({ email: req.query.email });
+
+        onlineUsers.delete(req.query.email);
+        return res.json({
+            msg: "user logged out",
+            status: true,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};

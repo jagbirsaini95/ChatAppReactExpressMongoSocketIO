@@ -23,3 +23,4 @@ app.listen(process.env.PORT, () => {
     console.log('server started successfully at ', process.env.PORT);
 })
 
+global.onlineUsers = new Map();
