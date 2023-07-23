@@ -27,14 +27,81 @@ module.exports.register = async (req, res, next) => {
             data: user
         })
     } catch (error) {
-
+        console.log(error);
     }
 }
 
-module.exports.login = (req, res, next) => {
+module.exports.login = async (req, res, next) => {
     try {
-        console.log(req);
+        const { email, password } = req.body;
+        const user = await Users.findOne({ email });
+        if (!user) {
+            return res.json({
+                status: false,
+                msg: "Email address not registered"
+            })
+        }
+        const userAuthenticated = await bcrpt.compare(password, user.password);
+        if (userAuthenticated) {
+            return res.json({
+                status: true,
+                msg: "Login success",
+                data: user
+            })
+        } else {
+            return res.json({
+                status: false,
+                msg: "Login failed",
+            })
+        }
     } catch (error) {
+        console.log(error);
+    }
+}
 
+module.exports.getAllUsers = async (req, res, next) => {
+    try {
+        const user = await Users.findOne({ email: req.query.email });
+        //for removing logged in user $ne with uer._id
+        const users = await Users.find({ _id: { $ne: user._id } }).select([
+            "email",
+            "userName",
+            "name",
+            "avatarImagePath",
+            "_id",
+        ]);
+
+        return res.json({
+            status: true,
+            msg: users.length !== 0 ? "users fetched" : "No user found except logged in",
+            data: users
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports.setAvatar = async (req, res, next) => {
+    try {
+        const user = await Users.findOne({ email: req.query.email });
+        const avatarImage = req.body.image;
+
+        const updatedUser = await Users.findByIdAndUpdate(
+            user._id,
+            {
+                isAvatarImageSet: true,
+                avatarImagePath: avatarImage,
+            },
+            { new: true }
+        )
+
+        return res.json({
+            status: true,
+            msg: "Avatar updated",
+            data: updatedUser
+        });
+
+    } catch (error) {
+        console.log(error);
     }
 }
