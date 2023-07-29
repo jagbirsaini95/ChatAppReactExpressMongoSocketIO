@@ -61,9 +61,9 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.getAllUsers = async (req, res, next) => {
     try {
-        const user = await Users.findOne({ email: req.query.email });
+        // const user = await Users.findOne({ email: req.params.id });
         //for removing logged in user $ne with uer._id
-        const users = await Users.find({ _id: { $ne: user._id } }).select([
+        const users = await Users.find({ _id: { $ne: req.params.id } }).select([
             "email",
             "userName",
             "name",
@@ -83,7 +83,7 @@ module.exports.getAllUsers = async (req, res, next) => {
 
 module.exports.setAvatar = async (req, res, next) => {
     try {
-        const user = await Users.findOne({ email: req.query.email });
+        const user = await Users.findOne({ _id: req.params.id });
         const avatarImage = req.body.image;
 
         const updatedUser = await Users.findByIdAndUpdate(
@@ -108,13 +108,15 @@ module.exports.setAvatar = async (req, res, next) => {
 
 module.exports.logOut = async (req, res, next) => {
     try {
-        // const user = await Users.findOne({ email: req.query.email });
+        const user = await Users.findOne({ email: req.params.id });
 
-        onlineUsers.delete(req.query.email);
-        return res.json({
-            msg: "user logged out",
-            status: true,
-        });
+        onlineUsers.delete(req.params.id);
+        if (user) {
+            return res.json({
+                msg: "user logged out",
+                status: true,
+            });
+        }
     } catch (error) {
         console.log(error);
     }

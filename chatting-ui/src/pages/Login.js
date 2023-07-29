@@ -2,15 +2,16 @@ import React from 'react'
 import swal from 'sweetalert';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Container, Header } from '../style/StyledComponents';
+import { login } from '../services/services';
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
-    const handleClick = () => {
-        return swal("Hello world!");
-    }
+    const navigate = useNavigate();
     return <Container>
-        <Header>Chatting app! Register</Header>
+        <Header>Chatting app! Login</Header>
         <Formik
-            initialValues={{ name: '', mobileNumber: '', email: '', password: '' }}
+            initialValues={{ email: '', password: '' }}
             validate={values => {
                 const errors = {};
                 if (!values.email) {
@@ -22,12 +23,20 @@ function Login() {
                 }
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 400);
+            onSubmit={async (values, { setSubmitting }) => {
+                const response = await login(values);
+                if (response.data.status) {
+                    swal(`${response.data.msg} with ${response.data.data.email}`);
+                    localStorage.setItem(
+                        'chat-app-logged-user',
+                        JSON.stringify(response.data.data)
+                    );
+                    navigate('/chat')
+                }
+                else {
+                    toast.error(response.data.msg)
+                }
+                setSubmitting(false);
             }}
         >
             {({ isSubmitting }) => (
@@ -41,6 +50,7 @@ function Login() {
                     <button type="submit" disabled={isSubmitting}>
                         Submit
                     </button>
+                    <Link to="/register">Register</Link>
                 </Form>
             )}
         </Formik>

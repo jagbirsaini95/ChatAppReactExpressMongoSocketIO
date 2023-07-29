@@ -2,12 +2,14 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Container, Header } from '../style/StyledComponents';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 import { register } from '../services/services';
 import swal from 'sweetalert';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
+    const navigate = useNavigate();
     return <Container>
         <Header>Chatting app! Register</Header>
         <Formik
@@ -26,7 +28,9 @@ function Register() {
             onSubmit={async (values, { setSubmitting }) => {
                 const response = await register(values);
                 if (response.data.status) {
-                    swal(`${response.data.msg} with ${response.data.data.email}`);
+                    swal(`${response.data.msg} with ${response.data.data.email}`).then(() => {
+                        navigate('/login')
+                    })
                 }
                 else {
                     toast.error(response.data.msg)
@@ -36,8 +40,6 @@ function Register() {
         >
             {({ errors, isSubmitting }) => (
                 <Form>
-                    <ToastContainer />
-
                     <label htmlFor="name" className='required'>Name</label>
                     <Field id="name" type="text" className="name" name="name" />
                     <label htmlFor="number">Mobile Number</label>
@@ -51,6 +53,7 @@ function Register() {
                     <button type="submit" disabled={isSubmitting}>
                         Submit
                     </button>
+                    <Link to="/login">Login</Link>
                 </Form>
             )}
         </Formik>
