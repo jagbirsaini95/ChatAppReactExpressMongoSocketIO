@@ -19,7 +19,7 @@ module.exports.register = async (req, res, next) => {
             password: encryptPassword,
         })
 
-        console.log(user);
+        // console.log(user);
         user.save();
         return res.json({
             status: true,

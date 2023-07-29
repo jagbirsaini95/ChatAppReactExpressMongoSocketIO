@@ -6,11 +6,6 @@ function Contacts({ currentUser, contacts, handleCurrentChat }) {
     const [currentSelected, setCurrentSelected] = useState(null);
     console.log(contacts);
 
-    useEffect(() => {
-        if (currentUser) {
-        }
-    }, [])
-
     const changeCurrentChat = (index, contact) => {
         setCurrentSelected(index)
         handleCurrentChat(contact)
@@ -27,7 +22,7 @@ function Contacts({ currentUser, contacts, handleCurrentChat }) {
                             <div onClick={() => changeCurrentChat(index, contact)} className={`contact ${index === currentSelected ? 'selected' : ''}`} key={index}>
                                 <div className="avatar">
                                     <img
-                                        src={`data:image/svg+xml;base64,${currentUser.avatarImagePath}`}
+                                        src={`data:image/svg+xml;base64,${contact.avatarImagePath}`}
                                         alt='avatar'
                                     />
                                 </div>
@@ -47,7 +42,7 @@ function Contacts({ currentUser, contacts, handleCurrentChat }) {
                     />
                 </div>
                 <div className="current-username">
-                    <h2>{currentUser.userName}</h2>
+                    <h3>{currentUser.userName}</h3>
                 </div>
             </div>
         </ContainerContacts>}

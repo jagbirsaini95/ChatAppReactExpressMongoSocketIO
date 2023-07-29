@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-height:80vh;
+height:100vh;
 form {
     display: flex;
     flex-direction: column;
@@ -58,16 +58,15 @@ text-align:center;
 
 `
 export const ContainerChat = styled.div`
-border: 1px solid blue;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:flex-end;
-height:80vh;
+height:97.5vh;
 
 .chat-container {
-    height: 80vh;
-    width: 80vw;
+    height: 100vh;
+    width: 90vw;
     border: 1px solid red;
     display:flex;
     }
@@ -75,11 +74,9 @@ height:80vh;
 
 export const ContainerContacts = styled.div`
 width:30%;
-border:1px solid black;
 height:100%;
 position:relative;
 .title {
-    border:1px solid red;
     text-align:center;
     font-size: 20px;
 }
@@ -105,10 +102,17 @@ position:relative;
     align-items:center;
 }
 .current-user {
-    border:1px solid red;
     position:absolute;
+    width:100%;
     cursor:pointer;
     bottom:0;
+    height:10%;
+    background-color:#e31f1f;
+    color:blanchedalmond;
+    .avatar img {
+        border:2px dotted blue;
+        // margin-right:4px;
+    }
 }
 .contact-list {
     overflow: auto;
@@ -122,7 +126,7 @@ position:relative;
         }
 }
 .selected {
-    transition:1s ease-in-out;
+    transition:0.5s ease-in-out;
     background-color: black;
     color:white;
 }
@@ -188,12 +192,15 @@ border:1px solid yellow;
     font-weight:600;
     font-size:29px;
 }
+.log-out {
+    position: fixed;
+    right: 10px;
+}
 `
 
 export const ContainerChatContainer = styled.div`
 height:100%;
 width:80%;
-border:1px solid yellow;
 .chat-user {
     display:flex;
     justify-content:space-between;
@@ -205,10 +212,10 @@ border:1px solid yellow;
     display:flex;
 }
 .chat-input{
-    margin:20px
+    // margin:20px
 }
 .chat-messages {
-    height:75%;
+    height:80%;
 }
 `
 export const ContainerInputChat = styled.div`
@@ -222,9 +229,32 @@ input {
     width:80%;
     height:40px;
 }
+
 button {
-    height:42px;
+    width:20%;
+    height:45px;
+    background-color: cornflowerblue;
+    border: 2px solid transparent;
+    cursor: pointer;
+    color:white;
+
+    &:hover, &:focus-visible {
+        border:2px solid blue;
+    }
 }
 `
 export const ContainerLogout = styled.div`
+button {
+    height:50px;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: cornflowerblue;
+    border: 2px solid transparent;
+    cursor: pointer;
+    color:white;
+
+    &:hover, &:focus-visible {
+        border:2px solid blue;
+    }
+}
 `
