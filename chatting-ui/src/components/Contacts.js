@@ -4,7 +4,7 @@ import { ContainerContacts, Header } from '../style/StyledComponents';
 
 function Contacts({ currentUser, contacts, handleCurrentChat }) {
     const [currentSelected, setCurrentSelected] = useState(null);
-    console.log(contacts);
+    // console.log(contacts);
 
     const changeCurrentChat = (index, contact) => {
         setCurrentSelected(index)

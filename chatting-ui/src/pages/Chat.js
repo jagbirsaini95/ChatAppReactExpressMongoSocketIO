@@ -31,7 +31,6 @@ function Chat() {
 
     const handleCurrentChat = (chat) => {
         setCurrentChat(chat);
-
     }
     return (
         <ContainerChat>

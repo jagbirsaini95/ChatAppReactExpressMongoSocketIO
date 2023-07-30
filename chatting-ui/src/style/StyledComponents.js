@@ -220,6 +220,7 @@ width:80%;
 `
 export const ContainerInputChat = styled.div`
 height:100%;
+position:relative;
 form{
     display:flex;
     align-items:center;
@@ -229,7 +230,23 @@ input {
     width:80%;
     height:40px;
 }
-
+img{
+    width:50px;
+    cursor:pointer;
+    border-radius:50%;
+    border: 2px solid transparent;
+    &:hover, &:focus-visible {
+        border:2px solid blue;
+    }
+}
+.emoji-picker {
+    // transition:0.5s ease-in-out;
+    position:absolute;
+    left:0;
+    bottom:60px;
+    // border:1px solid blue;
+    box-shadow:10px 10px 10px grey;
+}
 button {
     width:20%;
     height:45px;

@@ -31,7 +31,12 @@ function Login() {
                         'chat-app-logged-user',
                         JSON.stringify(response.data.data)
                     );
-                    navigate('/chat')
+                    console.log(response.data);
+                    if (response.data.data.isAvatarImageSet) {
+                        navigate('/chat')
+                    } else {
+                        navigate('/set-avatar')
+                    }
                 }
                 else {
                     toast.error(response.data.msg)

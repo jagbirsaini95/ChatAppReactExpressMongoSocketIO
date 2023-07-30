@@ -22,11 +22,12 @@ function SetAvatar() {
 
         if (data.status) {
             user.isAvatarImageSet = true;
-            user.avatarImage = data.image;
+            user.avatarImagePath = data.image;
             localStorage.setItem(
                 'chat-app-logged-user',
                 JSON.stringify(user)
             );
+            console.log(user);
             navigate("/");
         } else {
             toast.error("Error setting avatar. Please try again.");
@@ -37,23 +38,13 @@ function SetAvatar() {
         setSelectedAvatar(i);
     }
 
-    const getAvatars = async () => {
-        try {
-            const data = [];
-            for (let i = 0; i < 5; i++) {
-                const image = await axios.get(
-                    `${api}/${Math.round(Math.random() * 10)}`
-                );
-                const buffer = new Buffer(image.data);
-                data.push(buffer.toString("base64"));
-            }
-            return data;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     useEffect(() => {
+        const user = JSON.parse(
+            localStorage.getItem('chat-app-logged-user')
+        );
+        if (!user) {
+            navigate('/login');
+        }
         // const avatarsList = getAvatars();
         const getAllAvatars = async () => {
             const data = [];

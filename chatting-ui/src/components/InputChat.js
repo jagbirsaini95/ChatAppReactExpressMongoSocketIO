@@ -1,33 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { ContainerInputChat } from '../style/StyledComponents';
+import EmojiPicker from 'emoji-picker-react';
+import smileLogo from '../style/smile.png'
 function InputChat() {
+    const [msg, setMsg] = useState('');
+    const [showEmoji, setShowEmoji] = useState(false);
+
+    const handleEmojiClick = (e, emojiObject) => {
+        let message = msg;
+        message += e.emoji;
+        setMsg(message);
+    };
+
+    const handleChange = (e) => {
+        setMsg(e.target.value)
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(msg);
+        setShowEmoji(false);
+        setMsg('');
+    }
     return (
         <ContainerInputChat>
-            <Formik
-                initialValues={{ message: '' }}
-                onSubmit={(values, actions) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        actions.setSubmitting(false);
-                    }, 1000);
-                }}
-            >
-                {props => (
-                    <form onSubmit={props.handleSubmit}>
-                        <input
-                            type="text"
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            value={props.values.message}
-                            placeholder='enter your message here...'
-                            name="name"
-                        />
-                        {props.errors.name && <div id="feedback">{props.errors.name}</div>}
-                        <button type="submit">Send</button>
-                    </form>
-                )}
-            </Formik>
+            <form onSubmit={handleSubmit}>
+                {
+                    showEmoji &&
+                    <div className="emoji-picker" >
+                        <EmojiPicker onEmojiClick={handleEmojiClick} />
+                    </div>
+                }
+                <img src={smileLogo} onClick={() => setShowEmoji(!showEmoji)} alt='smile' />
+                <input
+                    type="text"
+                    onChange={handleChange}
+                    value={msg}
+                    placeholder='enter your message here...'
+                />
+                <button type="submit">Send</button>
+            </form>
         </ContainerInputChat>
     )
 }
