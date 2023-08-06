@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { ContainerInputChat } from '../style/StyledComponents';
 import EmojiPicker from 'emoji-picker-react';
 import smileLogo from '../style/smile.png'
-function InputChat() {
+function InputChat({ handleSendMessage }) {
     const [msg, setMsg] = useState('');
     const [showEmoji, setShowEmoji] = useState(false);
 
@@ -18,7 +18,7 @@ function InputChat() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(msg);
+        handleSendMessage(msg)
         setShowEmoji(false);
         setMsg('');
     }
@@ -33,6 +33,7 @@ function InputChat() {
                 }
                 <img src={smileLogo} onClick={() => setShowEmoji(!showEmoji)} alt='smile' />
                 <input
+                    required
                     type="text"
                     onChange={handleChange}
                     value={msg}

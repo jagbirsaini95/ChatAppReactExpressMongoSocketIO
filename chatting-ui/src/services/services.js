@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { contactsRoute, loginRoute, registerRoute, setAvatarRoute } from '../utils/apiRoutes';
+import { contactsRoute, getMessageRoute, loginRoute, registerRoute, sendMessageRout, setAvatarRoute } from '../utils/apiRoutes';
 
 export const register = async (payload) => {
     const response = await axios.post(registerRoute, { ...payload });
@@ -20,5 +20,13 @@ export const getContacts = async (id) => {
 }
 export const logOut = async (id) => {
     const response = await axios.get(`${contactsRoute}/${id}`);
+    return response;
+}
+export const getMessages = async (payload) => {
+    const response = await axios.post(`${getMessageRoute}`, { ...payload });
+    return response;
+}
+export const sendMessage = async (payload) => {
+    const response = await axios.post(`${sendMessageRout}`, { ...payload });
     return response;
 } 

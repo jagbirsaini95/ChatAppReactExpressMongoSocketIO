@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ContainerChatContainer, Header } from '../style/StyledComponents'
 import InputChat from './InputChat'
 import LogOut from './LogOut'
+import { getMessages, sendMessage } from '../services/services'
 
-function ChatContainer({ currentChat,currentUser }) {
+function ChatContainer({ currentChat, currentUser }) {
+    const [messages, setMessages] = useState(null);
+    const handleSendMessage = async (msg) => {
+        const res = await sendMessage({
+            from: currentUser._id,
+            to: currentChat._id,
+            message: msg
+        })
+        console.log(res, 'res');
+    }
+    const getMessage = async () => {
+        return await getMessages({
+            from: currentUser._id,
+            to: currentChat._id,
+        });
+    }
+    useEffect(() => {
+        const res = getMessage();
+        console.log(res, "res");
+    }, [])
+
     return (
         <ContainerChatContainer>
             <Header>
@@ -28,7 +49,7 @@ function ChatContainer({ currentChat,currentUser }) {
 
             </div>
             <div className="chat-input">
-                <InputChat />
+                <InputChat handleSendMessage={handleSendMessage} />
             </div>
         </ContainerChatContainer>
     )
