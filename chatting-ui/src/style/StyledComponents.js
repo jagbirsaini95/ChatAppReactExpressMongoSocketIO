@@ -211,11 +211,40 @@ width:80%;
 .flex {
     display:flex;
 }
+.log-out {
+    margin-right:25px;
+}
 .chat-input{
     // margin:20px
 }
 .chat-messages {
     height:80%;
+    display:flex;
+flex-direction:column;    
+gap:1rem;
+    div {
+        border:1px solid red;
+        max-width: 40%;
+        overflow-wrap: break-word;
+        color:white;
+        margin:0 2rem;
+        padding:0.3rem 1rem;
+        border-radius:10px;
+    }
+    .left {
+        background-color: red;
+        align-self:flex-start;
+        border-top-left-radius:0px;
+    }
+    .center {
+        align-self:center;
+        color:red;
+    }
+    .right {
+        background-color: green;
+        border-bottom-right-radius:0px;
+        align-self:flex-end;
+    }
 }
 `
 export const ContainerInputChat = styled.div`

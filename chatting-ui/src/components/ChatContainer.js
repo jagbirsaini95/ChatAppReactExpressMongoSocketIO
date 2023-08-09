@@ -7,23 +7,25 @@ import { getMessages, sendMessage } from '../services/services'
 function ChatContainer({ currentChat, currentUser }) {
     const [messages, setMessages] = useState(null);
     const handleSendMessage = async (msg) => {
-        const res = await sendMessage({
+        await sendMessage({
             from: currentUser._id,
             to: currentChat._id,
             message: msg
         })
-        console.log(res, 'res');
-    }
-    const getMessage = async () => {
-        return await getMessages({
-            from: currentUser._id,
-            to: currentChat._id,
-        });
+        const msgs = [...messages];
+        msgs.push({ fromSelf: true, message: msg })
+        setMessages(msgs);
     }
     useEffect(() => {
-        const res = getMessage();
-        console.log(res, "res");
-    }, [])
+        const getMessage = async () => {
+            const res = await getMessages({
+                from: currentUser._id,
+                to: currentChat._id,
+            });
+            setMessages(res.data.data)
+        }
+        getMessage();
+    }, [currentChat])
 
     return (
         <ContainerChatContainer>
@@ -46,7 +48,22 @@ function ChatContainer({ currentChat, currentUser }) {
                 </div>
             </Header>
             <div className="chat-messages">
-
+                {
+                    messages?.map((msg, i) => {
+                        return <div key={i} className={`${msg.fromSelf ? 'right' : 'left'}`}>
+                            {msg.message}
+                        </div>
+                    })
+                }
+                {/* <div className="left">
+                    left
+                </div>
+                <div className="right">
+                    right
+                </div>
+                <div className="center">
+                    center
+                </div> */}
             </div>
             <div className="chat-input">
                 <InputChat handleSendMessage={handleSendMessage} />
