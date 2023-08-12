@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const socket = require('socket.io');
 const app = express();
 const authRoutes = require('./routes/auth');
 const messgaeRoutes = require('./routes/messages');
@@ -21,8 +22,29 @@ mongoose.connect(process.env.MONGO_URL, {
 app.use('/api/auth', authRoutes);
 app.use('/api/message', messgaeRoutes);
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log('server started successfully at ', process.env.PORT);
 })
 
 global.onlineUsers = new Map();
+const io = socket(
+    server, {
+    cors: {
+        origin: 'http://localhost:3000',
+        credentials: true
+    },
+}
+)
+io.on('connection', (socket) => {
+    global.chatSocket = socket;
+    socket.on('add-user', (userId) => {
+        onlineUsers.set(userId, socket.id)
+    })
+    socket.on('send-msg', (data) => {
+        console.log("message", data);
+        const sendUserSocket = onlineUsers.get(data.to)
+        if (sendUserSocket) {
+            socket.to(sendUserSocket).emit('msg-recieve', data.message);
+        }
+    })
+})

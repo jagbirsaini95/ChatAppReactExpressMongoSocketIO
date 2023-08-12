@@ -222,6 +222,15 @@ width:80%;
     display:flex;
 flex-direction:column;    
 gap:1rem;
+overflow: auto;
+&::-webkit-scrollbar {
+    width:0.2rem;
+    &-thumb {
+      background-color: red;
+      width: 0.5rem;
+      border-radius: 2rem;
+    }
+}
     div {
         border:1px solid red;
         max-width: 40%;
